@@ -39,10 +39,17 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD)
         }
     }
 
-    list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs = createClonePairs(hashBucket);
+    map[str, list[tuple[node, loc]]] type1Clones = ();
+    for(hash <- hashBucket) {
+        if(size(hashBucket[hash]) > 1) {
+            type1Clones[hash] = hashBucket[hash];
+        }
+    }
 
-    println(size(clonePairs));
-    for (clonePair <- clonePairs) {
+    list[tuple[tuple[node, loc], tuple[node, loc]]] type1ClonePairs = createClonePairs(type1Clones);
+
+    println(size(type1ClonePairs));
+    for (clonePair <- type1ClonePairs) {
         println("Clone pair: <clonePair[0][1]> and <clonePair[1][1]> with mass <getMass(clonePair[0][0])>");
     }
 }
@@ -80,10 +87,7 @@ list[tuple[tuple[node, loc], tuple[node, loc]]] createClonePairs(map[str, list[t
             }
         }
     }
-    
-
     clonePairs = deleteSubClonePairs(clonePairs);
-
     return clonePairs;
 }
     
