@@ -21,6 +21,6 @@ void main() {
         set[loc] fileLocations = find(projectLocation, "java");
         list[Declaration] asts = getASTs(projectLocation);
 
-        basicCloneDetection(asts);
+        basicCloneDetection(asts, threshold=4000);
     }
 }

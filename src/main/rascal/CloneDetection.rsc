@@ -13,7 +13,7 @@ import Utility;
 
 // Detect type I and type II clones in a given project with the basic clone detection algorithm from Baxter et al.[1]
 
-int MASS_THRESHOLD = 4000;
+int MASS_THRESHOLD = 1500;
 
 // Compute the mass of a given AST
 int getMass(node subtree) {
@@ -23,6 +23,21 @@ int getMass(node subtree) {
 void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD) {
     map[str, list[tuple[node, loc]]] hashBucket = ();    
     for(ast <- asts) {
+        // Replace the variables id with an arbitrary id
+        ast = visit(ast) {
+            // case \variable(Expression name, something, val): insert \variable(id("", src=name.src), something, val, src=ast.src);
+            // // case \method(modifier, typeParameters, ret, _, parameters, exceptions): insert \method(modifier, typeParameters, ret, id(""), parameters, exceptions);
+            // case \method(a,b,c,Expression name,d,f): {
+            //     println("Method: <ast> <getKeywordParameters(ast)>");
+            //     println("Expression: <name> <getKeywordParameters(name)>");
+            //     insert \method(a,b,c,id("", src=name.src, decl=name.decl, typ=name.typ),d,f,src=ast.src, decl=ast.decl, typ=ast.typ);
+            // }
+            case id(str s): {
+                // println("ID: <s>");
+                insert id("", src=ast.src);
+            }
+        }
+
         top-down visit(ast) {
             case node subtree: {
                 int mass = getMass(subtree);
@@ -51,6 +66,15 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD)
     println(size(type1ClonePairs));
     for (clonePair <- type1ClonePairs) {
         println("Clone pair: <clonePair[0][1]> and <clonePair[1][1]> with mass <getMass(clonePair[0][0])>");
+        nodeString = toString(unsetRec(clonePair[0][0]));
+        // println("Test: <nodeString>");
+        // println("Annotations: <getAnnotations(clonePair[0][0])>");
+        // println("Test: <clonePair[0][0]>");
+        // // regex that matches "id(%s)"
+        // if((/variable\(id\((.*)\)\)/ := nodeString)) {
+        //     replace "id(%s)" with "id()"
+        //     nodeString = replaceAll(nodeString, /variable\(id\((.*)\)\)/, "variable(id())");
+        // }
     }
 }
 
@@ -90,11 +114,9 @@ list[tuple[tuple[node, loc], tuple[node, loc]]] createClonePairs(map[str, list[t
     clonePairs = deleteSubClonePairs(clonePairs);
     return clonePairs;
 }
-    
 
 void main() {
-    Declaration ast = createAstFromFile(|cwd:///projects/TestClone1/Clone1.java|, true);
-    list[Declaration] asts = [ast];
+    list[Declaration] asts = getASTs(|cwd:///projects/TestClone1/|);
     basicCloneDetection(asts);
 }
 
