@@ -14,7 +14,7 @@ void main() {
     println("Start analyzing following projects: <entries>. Can take a few minutes..");
     
     for(entry <- entries) {
-        if(entry == ".gitkeep" || entry == "hsqldb-2.3.1" || entry == "smallsql0.21_src") {
+        if(entry == ".gitkeep" || entry == "hsqldb-2.3.1" || entry == "TestClone1") {
             continue;
         }
         projectLocation = |cwd:///projects/| + entry;
