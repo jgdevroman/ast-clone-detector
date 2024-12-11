@@ -92,7 +92,7 @@ def detect_clones_in_project(project_path):
     return subtree_clones, sequence_clones, complex_clones
 
 # Example usage
-project_path = "projects/smallsql0.21_src"  # Replace with the path to your Java project
+project_path = "projects/TestClone1"  # Replace with the path to your Java project
 subtree_clones, sequence_clones, complex_clones = detect_clones_in_project(project_path)
 
 print("Subtree Clones:")
