@@ -38,6 +38,12 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD,
                 case s:\stringLiteral(_): {
                     insert stringLiteral("", src=s.src);
                 }
+                case c:\characterLiteral(_): {
+                    insert characterLiteral("", src=c.src);
+                }
+                case t:\textBlock(_): {
+                    insert textBlock("", src=t.src);
+                }
                 // case Declaration declaration: {
                 //     newDeclaration = visit(declaration) {
                 //         case id(_): {
@@ -140,7 +146,7 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD,
         println("Clone class: ");
         for (clone <- cloneClass) {
             println("<clone[1]> with mass <getMass(clone[0])>");
-            // println("Test: <unsetRec(clone[0])>");
+            println("Test: <unsetRec(clone[0])>");
             // println("No unset: <clone[0]>");
             // println("Unset: <unsetRec(clone[0], {"src", "decl"})> \n");
         }
