@@ -57,14 +57,14 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD,
         }
     }
 
-    map[str, list[tuple[node, loc]]] type1Clones = ();
+    map[str, list[tuple[node, loc]]] clones = ();
     for(hash <- hashBucket) {
         if(size(hashBucket[hash]) > 1) {
-            type1Clones[hash] = hashBucket[hash];
+            clones[hash] = hashBucket[hash];
         }
     }
 
-    list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs = createClonePairs(type1Clones);
+    list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs = createClonePairs(clones);
 
     for (clonePair <- clonePairs) {
         println("Clone pair: <clonePair[0][1]> and <clonePair[1][1]> with mass <getMass(clonePair[0][0])>");
@@ -78,7 +78,19 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD,
         //     nodeString = replaceAll(nodeString, /variable\(id\((.*)\)\)/, "variable(id())");
         // }
     }
-    println(size(clonePairs));
+    println("Number of clone pairs: <size(clonePairs)>");
+
+    list[list[tuple[node, loc]]] cloneClasses = createCloneClasses(clones);
+
+    for (cloneClass <- cloneClasses) {
+        println("Clone class: ");
+        for (clone <- cloneClass) {
+            println("<clone[1]> with mass <getMass(clone[0])>");
+        }
+    }
+
+    println("Number of clone classes: <size(cloneClasses)>");
+
 }
 
 bool isSubClone(tuple[tuple[node, loc], tuple[node, loc]] subClonePair, list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs) {
@@ -116,6 +128,36 @@ list[tuple[tuple[node, loc], tuple[node, loc]]] createClonePairs(map[str, list[t
     }
     clonePairs = deleteSubClonePairs(clonePairs);
     return clonePairs;
+}
+
+list[list[tuple[node, loc]]] createCloneClasses(map[str, list[tuple[node, loc]]] hashBucket) {
+    // map[str, list[tuple[node, loc]]] cloneClasses = ();
+    // for(hash <- hashBucket) {
+    //     if(size(hashBucket[hash]) < 2) {
+    //         continue;
+    //     }
+    //     cloneClasses[hash] = hashBucket[hash];
+    // }
+    list[list[tuple[node, loc]]] cloneClasses = [hashBucket[hash] | hash <- hashBucket, size(hashBucket[hash]) > 1];
+    cloneClasses = deleteSubCloneClasses(cloneClasses);
+    return cloneClasses;
+}
+
+list[list[tuple[node, loc]]] deleteSubCloneClasses(list[list[tuple[node, loc]]] cloneClasses) {
+    list[list[tuple[node, loc]]] newCloneClasses = cloneClasses;
+    for (cloneClass <- cloneClasses) {
+        for (subCloneClass <- cloneClasses) {
+            if (size(cloneClass) == size(subCloneClass)) {
+                for (i <- [0..size(cloneClass)]) {
+                    if (isStrictlyContainedIn(cloneClass[i][1], subCloneClass[i][1])) {
+                        newCloneClasses = delete(cloneClasses, indexOf(cloneClasses, cloneClass));
+                        return deleteSubCloneClasses(newCloneClasses);
+                    }
+                }
+            }
+        }
+    }
+    return newCloneClasses;
 }
 
 void main() {
