@@ -25,19 +25,81 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD,
     for(ast <- asts) {
         // For type2 clones
         if (type2) {
-            ast = bottom-up visit(ast) {
-                // case \methodCall(list[Type] typeArguments, Expression name, list[Expression] arguments): continue;
-                // case \methodCall(Expression receiver, list[Type] typeArguments, Expression name, list[Expression] arguments): continue;
-                case Declaration declaration: {
-                    newDeclaration = visit(declaration) {
-                        case id(_): {
-                            // println([l | /l:id(s) <- ast]);
-                            // println("Declaration: <declaration>");
-                            insert id("", src=ast.src);
-                        } 
-                    }
-                    insert newDeclaration;
+            ast = visit(ast) {
+                case i:\id(_): {
+                    insert id("", src=i.src);
+                } 
+                case n:\number(_): {
+                    insert number("", src=n.src);
                 }
+                case b:\booleanLiteral(_): {
+                    insert booleanLiteral("", src=b.src);
+                }
+                case s:\stringLiteral(_): {
+                    insert stringLiteral("", src=s.src);
+                }
+                // case Declaration declaration: {
+                //     newDeclaration = visit(declaration) {
+                //         case id(_): {
+                //             insert id("", src=ast.src);
+                //         } 
+                //     }
+                //     insert newDeclaration;
+                // }
+                // case m:\method(_,_,_,name,_,_,_): {
+                //     newExpression = visit(name) {
+                //         case i:id(_): {
+                //             insert id("", src=i.src);
+                //         }
+                //     }
+                //     m.name = newExpression;
+                //     insert m;
+                // }
+                // case c:\class(_,name,_,_,_,_): {
+                //     newExpression = visit(name) {
+                //         case i:id(_): {
+                //             insert id("", src=i.src);
+                //         }
+                //     }
+                //     c.name = newExpression;
+                //     insert c;
+                // }
+                // case p:\parameter(_,_,name,_): {
+                //     newExpression = visit(name) {
+                //         case i:id(_): {
+                //             insert id("", src=i.src);
+                //         }
+                //     }
+                //     p.name = newExpression;
+                //     insert p;
+                // }
+                // case v:\variable(_,_): {
+                //     newVariable = visit(v) {
+                //         case i:id(_): {
+                //             insert id("", src=i.src);
+                //         }
+                //     }
+                //     insert newVariable;
+                // }
+                // case v:\variable(_,_,_): {
+                //     newVariable = visit(v) {
+                //         case i:id(_): {
+                //             insert id("", src=i.src);
+                //         }
+                //     }
+                //     insert newVariable;
+                // }
+                // case m:\methodCall(_,_,_): {
+                    // newExpression = visit(name) {
+                    //     case i:id(_): {
+                    //         insert id("", src=i.src);
+                    //     }
+                    // }
+                    // m.name = newExpression;
+                    // insert m;
+                    // println("Unset src call: <unsetRec(m, {"src"})>");
+                    // println("Unset all: <unsetRec(m)>");
+                // }
             }
         }
 
@@ -46,7 +108,7 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD,
                 int mass = getMass(subtree);
                 // println(mass);
                 if(mass > threshold) {
-                    str subtreeHash = hash(unsetRec(subtree));
+                    str subtreeHash = hash(unsetRec(subtree, {"src", "decl", "typ"}));
                     if(subtreeHash in hashBucket) {
                         hashBucket[subtreeHash] = hashBucket[subtreeHash] + [<subtree, subtree.src>];
                     } else {
@@ -57,35 +119,30 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD,
         }
     }
 
-    map[str, list[tuple[node, loc]]] clones = ();
-    for(hash <- hashBucket) {
-        if(size(hashBucket[hash]) > 1) {
-            clones[hash] = hashBucket[hash];
-        }
-    }
+    // map[str, list[tuple[node, loc]]] clones = ();
+    // for(hash <- hashBucket) {
+    //     if(size(hashBucket[hash]) > 1) {
+    //         clones[hash] = hashBucket[hash];
+    //     }
+    // }
 
-    list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs = createClonePairs(clones);
+    // list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs = createClonePairs(clones);
 
-    for (clonePair <- clonePairs) {
-        println("Clone pair: <clonePair[0][1]> and <clonePair[1][1]> with mass <getMass(clonePair[0][0])>");
-        nodeString = toString(unsetRec(clonePair[0][0]));
-        // println("Test: <nodeString>");
-        // println("Annotations: <getAnnotations(clonePair[0][0])>");
-        // println("Test: <clonePair[0][0]>");
-        // // regex that matches "id(%s)"
-        // if((/variable\(id\((.*)\)\)/ := nodeString)) {
-        //     replace "id(%s)" with "id()"
-        //     nodeString = replaceAll(nodeString, /variable\(id\((.*)\)\)/, "variable(id())");
-        // }
-    }
-    println("Number of clone pairs: <size(clonePairs)>");
+    // for (clonePair <- clonePairs) {
+    //     println("Clone pair: <clonePair[0][1]> and <clonePair[1][1]> with mass <getMass(clonePair[0][0])>");
+    //     nodeString = toString(unsetRec(clonePair[0][0]));
+    // }
+    // println("Number of clone pairs: <size(clonePairs)>");
 
-    list[list[tuple[node, loc]]] cloneClasses = createCloneClasses(clones);
+    list[list[tuple[node, loc]]] cloneClasses = createCloneClasses(hashBucket);
 
     for (cloneClass <- cloneClasses) {
         println("Clone class: ");
         for (clone <- cloneClass) {
             println("<clone[1]> with mass <getMass(clone[0])>");
+            // println("Test: <unsetRec(clone[0])>");
+            // println("No unset: <clone[0]>");
+            // println("Unset: <unsetRec(clone[0], {"src", "decl"})> \n");
         }
     }
 
@@ -131,13 +188,6 @@ list[tuple[tuple[node, loc], tuple[node, loc]]] createClonePairs(map[str, list[t
 }
 
 list[list[tuple[node, loc]]] createCloneClasses(map[str, list[tuple[node, loc]]] hashBucket) {
-    // map[str, list[tuple[node, loc]]] cloneClasses = ();
-    // for(hash <- hashBucket) {
-    //     if(size(hashBucket[hash]) < 2) {
-    //         continue;
-    //     }
-    //     cloneClasses[hash] = hashBucket[hash];
-    // }
     list[list[tuple[node, loc]]] cloneClasses = [hashBucket[hash] | hash <- hashBucket, size(hashBucket[hash]) > 1];
     cloneClasses = deleteSubCloneClasses(cloneClasses);
     return cloneClasses;

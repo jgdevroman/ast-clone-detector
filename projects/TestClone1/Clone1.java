@@ -2,9 +2,9 @@ public class Clone1 {
     public void d ()
     {
         int x=0;
-        int a=1;
+        int a=5;
         int b=2;
-        int w=4;
+        int w=5;
     }
 
     private void e ()
@@ -14,7 +14,7 @@ public class Clone1 {
 
     public static void main(String[] args) {
         if(args.length > 0) {
-            greetUser("Alice");
+            hello("Alice");
             int x=0;
             int a=1;
             int b=2;
