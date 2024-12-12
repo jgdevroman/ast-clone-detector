@@ -20,21 +20,24 @@ int getMass(node subtree) {
     return size(toString(subtree));
 }
 
-void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD) {
+void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD, bool type2 = true) {
     map[str, list[tuple[node, loc]]] hashBucket = ();    
     for(ast <- asts) {
-        // Replace the variables id with an arbitrary id
-        ast = visit(ast) {
-            // case \variable(Expression name, something, val): insert \variable(id("", src=name.src), something, val, src=ast.src);
-            // // case \method(modifier, typeParameters, ret, _, parameters, exceptions): insert \method(modifier, typeParameters, ret, id(""), parameters, exceptions);
-            // case \method(a,b,c,Expression name,d,f): {
-            //     println("Method: <ast> <getKeywordParameters(ast)>");
-            //     println("Expression: <name> <getKeywordParameters(name)>");
-            //     insert \method(a,b,c,id("", src=name.src, decl=name.decl, typ=name.typ),d,f,src=ast.src, decl=ast.decl, typ=ast.typ);
-            // }
-            case id(str s): {
-                // println("ID: <s>");
-                insert id("", src=ast.src);
+        // For type2 clones
+        if (type2) {
+            ast = bottom-up visit(ast) {
+                // case \methodCall(list[Type] typeArguments, Expression name, list[Expression] arguments): continue;
+                // case \methodCall(Expression receiver, list[Type] typeArguments, Expression name, list[Expression] arguments): continue;
+                case Declaration declaration: {
+                    newDeclaration = visit(declaration) {
+                        case id(_): {
+                            // println([l | /l:id(s) <- ast]);
+                            // println("Declaration: <declaration>");
+                            insert id("", src=ast.src);
+                        } 
+                    }
+                    insert newDeclaration;
+                }
             }
         }
 
@@ -61,10 +64,9 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD)
         }
     }
 
-    list[tuple[tuple[node, loc], tuple[node, loc]]] type1ClonePairs = createClonePairs(type1Clones);
+    list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs = createClonePairs(type1Clones);
 
-    println(size(type1ClonePairs));
-    for (clonePair <- type1ClonePairs) {
+    for (clonePair <- clonePairs) {
         println("Clone pair: <clonePair[0][1]> and <clonePair[1][1]> with mass <getMass(clonePair[0][0])>");
         nodeString = toString(unsetRec(clonePair[0][0]));
         // println("Test: <nodeString>");
@@ -76,12 +78,13 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD)
         //     nodeString = replaceAll(nodeString, /variable\(id\((.*)\)\)/, "variable(id())");
         // }
     }
+    println(size(clonePairs));
 }
 
 bool isSubClone(tuple[tuple[node, loc], tuple[node, loc]] subClonePair, list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs) {
     for (clonePair <- clonePairs) {
         if(isStrictlyContainedIn(subClonePair[0][1], clonePair[0][1]) && isStrictlyContainedIn(subClonePair[1][1], clonePair[1][1])) {
-            println("subtree <subClonePair[0][1]> and <subClonePair[1][1]> is a subclone of <clonePair[0][1]> and <clonePair[1][1]>");
+            // println("subtree <subClonePair[0][1]> and <subClonePair[1][1]> is a subclone of <clonePair[0][1]> and <clonePair[1][1]>");
             return true;
         }
     }

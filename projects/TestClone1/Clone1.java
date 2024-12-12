@@ -26,9 +26,9 @@ public class Clone1 {
         System.out.println("Hello, " + name + "!");
     }
 
-    public static void hello(String[] args) {
+    public static void hello(String args) {
         if(args.length > 0) {
-            greetUser("Alice");
+            hello("Alice");
             int x=0;
             int a=1;
             int b=2;
