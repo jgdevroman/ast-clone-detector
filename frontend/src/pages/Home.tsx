@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import * as d3 from "d3";
-import "./App.css";
-import LinePlot from "../components/LinePlot";
+import "./Home.css";
 import Treemap from "../components/Treemap/Treemap";
 
 const dataset = {

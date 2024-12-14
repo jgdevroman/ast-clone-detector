@@ -8,13 +8,15 @@ interface TreemapProps {
   data: any; // Replace 'any' with a more specific type if possible
 }
 
-function Treemap({ width = 640, height = 400, data }: TreemapProps) {
+function Treemap({ width, height, data }: TreemapProps) {
   const ref = useRef<SVGSVGElement>(null);
+  const mapWidth = width ? width : window.innerWidth - 100;
+  const mapHeight = height ? height : window.innerHeight - 100;
   useEffect(() => {
     const svg = d3
       .select(ref.current)
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", mapWidth)
+      .attr("height", mapHeight)
       .style("border", "1px solid black");
   }, []);
 
@@ -33,7 +35,7 @@ function Treemap({ width = 640, height = 400, data }: TreemapProps) {
     // initialize treemap
     d3
       .treemap()
-      .size([width, height])
+      .size([mapWidth, mapHeight])
       .paddingTop(28)
       .paddingRight(7)
       .paddingInner(3)(root);
@@ -52,21 +54,21 @@ function Treemap({ width = 640, height = 400, data }: TreemapProps) {
     nodes
       .enter()
       .append("rect")
-      .attr("x", function (d) {
+      .attr("x", function (d: any) {
         return d.x0;
       })
-      .attr("y", function (d) {
+      .attr("y", function (d: any) {
         return d.y0;
       })
-      .attr("width", function (d) {
+      .attr("width", function (d: any) {
         return d.x1 - d.x0;
       })
-      .attr("height", function (d) {
+      .attr("height", function (d: any) {
         return d.y1 - d.y0;
       })
       .style("stroke", "black")
-      .style("fill", function (d) {
-        return color(d.parent.data.name);
+      .style("fill", function (d: any): string {
+        return color(d.parent.data.name) as string;
       })
       .style("opacity", function (d) {
         return opacity(d.data.value);
@@ -81,13 +83,13 @@ function Treemap({ width = 640, height = 400, data }: TreemapProps) {
     nodeText
       .enter()
       .append("text")
-      .attr("x", function (d) {
+      .attr("x", function (d: any) {
         return d.x0 + 5;
       }) // +10 to adjust position (more right)
-      .attr("y", function (d) {
+      .attr("y", function (d: any) {
         return d.y0 + 20;
       }) // +20 to adjust position (lower)
-      .text(function (d) {
+      .text(function (d: any) {
         return d.data.name.replace("mister_", "");
       })
       .attr("font-size", "19px")
@@ -100,13 +102,13 @@ function Treemap({ width = 640, height = 400, data }: TreemapProps) {
     nodeVals
       .enter()
       .append("text")
-      .attr("x", function (d) {
+      .attr("x", function (d: any) {
         return d.x0 + 5;
       }) // +10 to adjust position (more right)
-      .attr("y", function (d) {
+      .attr("y", function (d: any) {
         return d.y0 + 35;
       }) // +20 to adjust position (lower)
-      .text(function (d) {
+      .text(function (d: any) {
         return d.data.value;
       })
       .attr("font-size", "11px")
@@ -122,18 +124,18 @@ function Treemap({ width = 640, height = 400, data }: TreemapProps) {
       )
       .enter()
       .append("text")
-      .attr("x", function (d) {
+      .attr("x", function (d: any) {
         return d.x0;
       })
-      .attr("y", function (d) {
+      .attr("y", function (d: any) {
         return d.y0 + 21;
       })
       .text(function (d) {
         return d.data.name;
       })
       .attr("font-size", "19px")
-      .attr("fill", function (d) {
-        return color(d.data.name);
+      .attr("fill", function (d: any) {
+        return color(d.data.name) as string;
       });
 
     // Add the chart heading
