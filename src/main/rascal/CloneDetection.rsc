@@ -114,17 +114,12 @@ map[str, list[tuple[node, loc]]] deleteSubCloneClasses(map[str, list[tuple[node,
         for (subCloneClassHash <- cloneClasses) {
             subCloneClass = cloneClasses[subCloneClassHash];
             if (size(cloneClass) <= size(subCloneClass) && cloneClass != subCloneClass) {
-                isSubClone = true;
                 for (i <- [0..size(cloneClass)]) {
-                    if (!isStrictlyContainedIn(cloneClass[i][1], subCloneClass[i][1])) {
+                    if (isStrictlyContainedIn(cloneClass[i][1], subCloneClass[i][1])) {
                         // println("Clone class <cloneClass> is a subclone of <subCloneClass>");
-                        isSubClone = false;
-                        break; 
+                        newCloneClasses = delete(newCloneClasses, cloneClassHash);
+                        cloneClass = subCloneClass;
                     }
-                }
-                if (isSubClone) {
-                    newCloneClasses = delete(newCloneClasses, cloneClassHash);
-                    cloneClass = subCloneClass;
                 }
             }
         }
