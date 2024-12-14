@@ -112,7 +112,7 @@ export default function App() {
 
   return (
     <div>
-      <Treemap data={data} />
+      <Treemap  />
     </div>
   );
 }
