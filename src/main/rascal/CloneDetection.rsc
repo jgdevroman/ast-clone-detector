@@ -14,7 +14,7 @@ import Utility;
 
 // Detect type I and type II clones in a given project based on the clone detection algorithm from Baxter et al.[1]
 
-int MASS_THRESHOLD = 1000;
+int MASS_THRESHOLD = 50;
 
 void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD, bool type2 = true) {
     map[str, list[tuple[node, loc]]] hashBucket = createHashBuckets(asts, threshold, type2); 
@@ -32,7 +32,7 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD,
     for (cloneClass <- [cloneClasses[hash] | hash <- cloneClasses]) {
         println("Clone class: ");
         for (clone <- cloneClass) {
-            println("<clone[1]> with mass <getMass(clone[0])>");
+            println("<clone[1]> with mass <getMass(clone[1])>");
             // println("Test: <unsetRec(clone[0])>");
             // println("No unset: <clone[0]>");
             // println("Unset: <unsetRec(clone[0], {"src", "decl"})> \n");
@@ -73,14 +73,19 @@ map[str, list[tuple[node, loc]]] createHashBuckets(list[Declaration] asts, int t
 
         top-down visit(ast) {
             case node subtree: {
-                int mass = getMass(subtree);
-                if(mass > threshold) {
-                    str subtreeHash = hash(unsetRec(subtree, {"src", "decl", "typ"}));
-                    if(subtreeHash in hashBucket) {
-                        hashBucket[subtreeHash] = hashBucket[subtreeHash] + [<subtree, subtree.src>];
-                    } else {
-                        hashBucket[subtreeHash] = [<subtree, subtree.src>];
+                try{
+                    int mass = getMass(subtree.src);
+                    if(mass > threshold) {
+                        str subtreeHash = hash(unsetRec(subtree, {"src", "decl", "typ"}));
+                        if(subtreeHash in hashBucket) {
+                            hashBucket[subtreeHash] = hashBucket[subtreeHash] + [<subtree, subtree.src>];
+                        } else {
+                            hashBucket[subtreeHash] = [<subtree, subtree.src>];
+                        }
                     }
+                } catch _ : {
+                    // Ignore subtrees that do not have a src 
+                    // println("Error: Could not calculate mass for subtree <subtree>");
                 }
             }
         }
@@ -89,8 +94,8 @@ map[str, list[tuple[node, loc]]] createHashBuckets(list[Declaration] asts, int t
 }
 
 // Compute the mass of a given AST
-int getMass(node subtree) {
-    return size(toString(subtree));
+int getMass(loc src) {
+    return src.length;
 }
 
 map[str, list[tuple[node, loc]]] createCloneClasses(map[str, list[tuple[node, loc]]] hashBucket) {
