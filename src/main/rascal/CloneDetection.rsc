@@ -84,8 +84,8 @@ map[str, list[tuple[node, loc]]] createHashBuckets(list[Declaration] asts, int t
                         }
                     }
                 } catch _ : {
-                    // Ignore subtrees that do not have a src 
-                    // println("Error: Could not calculate mass for subtree <subtree>");
+                    // Ignore subtrees that do not have a src location
+                    println("Could not calculate mass for subtree <subtree>");
                 }
             }
         }
