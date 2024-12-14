@@ -73,19 +73,21 @@ map[str, list[tuple[node, loc]]] createHashBuckets(list[Declaration] asts, int t
 
         top-down visit(ast) {
             case node subtree: {
+                int mass = 0;
                 try{
-                    int mass = getMass(subtree.src);
-                    if(mass > threshold) {
-                        str subtreeHash = hash(unsetRec(subtree, {"src", "decl", "typ"}));
-                        if(subtreeHash in hashBucket) {
-                            hashBucket[subtreeHash] = hashBucket[subtreeHash] + [<subtree, subtree.src>];
-                        } else {
-                            hashBucket[subtreeHash] = [<subtree, subtree.src>];
-                        }
-                    }
+                    mass = getMass(subtree.src);
                 } catch _ : {
                     // Ignore subtrees that do not have a src location
-                    println("Could not calculate mass for subtree <subtree>");
+                    // println("Could not calculate mass for subtree <subtree>");
+                    mass = 0;
+                }
+                if(mass > threshold) {
+                    str subtreeHash = hash(unsetRec(subtree, {"src", "decl", "typ"}));
+                    if(subtreeHash in hashBucket) {
+                        hashBucket[subtreeHash] = hashBucket[subtreeHash] + [<subtree, subtree.src>];
+                    } else {
+                        hashBucket[subtreeHash] = [<subtree, subtree.src>];
+                    }
                 }
             }
         }
