@@ -14,13 +14,13 @@ void main() {
     println("Start analyzing following projects: <entries>. Can take a few minutes..");
     
     for(entry <- entries) {
-        if(entry == ".gitkeep" || entry == "TestClone1" || entry == "smallsql0.21_src") {
+        if(entry == ".gitkeep" || entry == "TestClone1" || entry == "hsqldb-2.3.1") {
             continue;
         }
         projectLocation = |cwd:///projects/| + entry;
         set[loc] fileLocations = find(projectLocation, "java");
         list[Declaration] asts = getASTs(projectLocation);
 
-        basicCloneDetection(asts, threshold=4000);
+        basicCloneDetection(asts, threshold=3000);
     }
 }
