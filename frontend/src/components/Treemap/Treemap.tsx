@@ -107,7 +107,7 @@ function Treemap({ width, height, data = dataset }: TreemapProps) {
       d3.schemeTableau10
     );
 
-    const opacity = d3.scaleLinear().domain([10, 30]).range([0.5, 1]);
+    const opacity = d3.scaleLinear().domain([0, 500]).range([0.3, 1]);
 
     // Select the nodes
     var nodes = svg
@@ -132,7 +132,7 @@ function Treemap({ width, height, data = dataset }: TreemapProps) {
       .append("rect")
       .attr("id", (d) => (d.leafUid = generateUniqueID("leaf")))
       .attr("fill", (d) => {
-        while (d.depth > 1) d = d.parent;
+        while (d.depth > 4) d = d.parent;
         return color(d.data.name);
       })
       .attr("width", (d) => d.x1 - d.x0)
@@ -170,27 +170,27 @@ function Treemap({ width, height, data = dataset }: TreemapProps) {
     var nodeVals = svg.selectAll("vals").data(root.leaves());
 
     // add the values
-    nodeVals
-      .enter()
-      .append("text")
-      .attr("x", function (d: any) {
-        return d.x0 + 5;
-      }) // +10 to adjust position (more right)
-      .attr("y", function (d: any) {
-        return d.y0 + 35;
-      }) // +20 to adjust position (lower)
-      .text(function (d: any) {
-        return d.data.value;
-      })
-      .attr("font-size", "11px")
-      .attr("fill", "white");
+    // nodeVals
+    //   .enter()
+    //   .append("text")
+    //   .attr("x", function (d: any) {
+    //     return d.x0 + 5;
+    //   }) // +10 to adjust position (more right)
+    //   .attr("y", function (d: any) {
+    //     return d.y0 + 35;
+    //   }) // +20 to adjust position (lower)
+    //   .text(function (d: any) {
+    //     return d.data.value;
+    //   })
+    //   .attr("font-size", "11px")
+    //   .attr("fill", "white");
 
     // add the parent node titles
     svg
       .selectAll("titles")
       .data(
         root.descendants().filter(function (d) {
-          return d.depth == 1;
+          return d.depth < 5 && d.depth > 0 && d.data.children.length > 1;
         })
       )
       .enter()
@@ -204,7 +204,7 @@ function Treemap({ width, height, data = dataset }: TreemapProps) {
       .text(function (d) {
         return d.data.name;
       })
-      .attr("font-size", "19px")
+      .attr("font-size", "12px")
       .attr("fill", function (d: any) {
         return color(d.data.name) as string;
       });

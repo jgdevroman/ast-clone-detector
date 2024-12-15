@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./Home.css";
 import Treemap from "../components/Treemap/Treemap";
 import treemapData from "../../../results/smallsql0.21_src/Treemap.json";
+import CirclePack from "../components/CirclePack/CirclePack";
 
 export default function App() {
   const dataset = treemapData;
@@ -16,7 +17,7 @@ export default function App() {
 
   return (
     <div>
-      <Treemap data={data} />
+      <CirclePack data={data} />
     </div>
   );
 }

@@ -1,1 +1,69 @@
-{"name":"TestClone1","children":[{"name":"Example2.java","children":[{"src":"|java+compilationUnit:///projects/TestClone1/Example2.java|(29,118,<2,4>,<8,5>)","cloneClassHash":"ca72516929dd1ba2557dac196e6c6c01","name":"Example2.java","value":118},{"src":"|java+compilationUnit:///projects/TestClone1/Example2.java|(441,134,<25,4>,<28,5>)","cloneClassHash":"0df7608b0133396a17bf2f06122289a0","name":"Example2.java","value":134},{"src":"|java+compilationUnit:///projects/TestClone1/Example2.java|(262,171,<15,43>,<23,5>)","cloneClassHash":"97a59decba67c63f494d4db2982c665d","name":"Example2.java","value":171},{"src":"|java+compilationUnit:///projects/TestClone1/Example2.java|(223,210,<15,4>,<23,5>)","cloneClassHash":"dd213bb67c0ce375feb5a2e0f7c01b6d","name":"Example2.java","value":210}]},{"name":"Clone1.java","children":[{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(27,102,<2,4>,<8,5>)","cloneClassHash":"ca72516929dd1ba2557dac196e6c6c01","name":"Clone1.java","value":102},{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(417,134,<24,4>,<27,5>)","cloneClassHash":"0df7608b0133396a17bf2f06122289a0","name":"Clone1.java","value":134},{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(244,167,<15,43>,<23,5>)","cloneClassHash":"97a59decba67c63f494d4db2982c665d","name":"Clone1.java","value":167},{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(597,167,<29,42>,<37,5>)","cloneClassHash":"97a59decba67c63f494d4db2982c665d","name":"Clone1.java","value":167},{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(205,206,<15,4>,<23,5>)","cloneClassHash":"dd213bb67c0ce375feb5a2e0f7c01b6d","name":"Clone1.java","value":206}]}]}
+{
+  "name": "TestClone1",
+  "children": [
+    {
+      "name": "Example2.java",
+      "children": [
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Example2.java|(29,118,<2,4>,<8,5>)",
+          "cloneClassHash": "ca72516929dd1ba2557dac196e6c6c01",
+          "name": "Example2.java",
+          "value": 118
+        },
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Example2.java|(441,134,<25,4>,<28,5>)",
+          "cloneClassHash": "0df7608b0133396a17bf2f06122289a0",
+          "name": "Example2.java",
+          "value": 134
+        },
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Example2.java|(262,171,<15,43>,<23,5>)",
+          "cloneClassHash": "97a59decba67c63f494d4db2982c665d",
+          "name": "Example2.java",
+          "value": 171
+        },
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Example2.java|(223,210,<15,4>,<23,5>)",
+          "cloneClassHash": "dd213bb67c0ce375feb5a2e0f7c01b6d",
+          "name": "Example2.java",
+          "value": 210
+        }
+      ]
+    },
+    {
+      "name": "Clone1.java",
+      "children": [
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(27,102,<2,4>,<8,5>)",
+          "cloneClassHash": "ca72516929dd1ba2557dac196e6c6c01",
+          "name": "Clone1.java",
+          "value": 102
+        },
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(417,134,<24,4>,<27,5>)",
+          "cloneClassHash": "0df7608b0133396a17bf2f06122289a0",
+          "name": "Clone1.java",
+          "value": 134
+        },
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(244,167,<15,43>,<23,5>)",
+          "cloneClassHash": "97a59decba67c63f494d4db2982c665d",
+          "name": "Clone1.java",
+          "value": 167
+        },
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(597,167,<29,42>,<37,5>)",
+          "cloneClassHash": "97a59decba67c63f494d4db2982c665d",
+          "name": "Clone1.java",
+          "value": 167
+        },
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(205,206,<15,4>,<23,5>)",
+          "cloneClassHash": "dd213bb67c0ce375feb5a2e0f7c01b6d",
+          "name": "Clone1.java",
+          "value": 206
+        }
+      ]
+    }
+  ]
+}
