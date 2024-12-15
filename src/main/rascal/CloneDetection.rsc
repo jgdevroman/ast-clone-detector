@@ -46,7 +46,7 @@ map[str, list[tuple[node, loc]]] basicCloneDetection(list[Declaration] asts, int
 
 map[str, list[tuple[node, loc]]] createHashBuckets(list[Declaration] asts, int threshold, bool type2) {
     map[str, list[tuple[node, loc]]] hashBucket = (); 
-    println("Traverse ASTs and detect clones with mass bigger than <threshold>.");
+    println("Traverse ASTs and detect clones with mass bigger than <threshold>. Hold tight, this can take a while..");
     for(ast <- asts) {
         // For type2 clones
         if (type2) {

@@ -23,15 +23,15 @@ str hash(value s) {
 }
 
 void cloneClassesToJson(map[str, list[tuple[node, loc]]] cloneClasses, loc outputLocation, str entry, str cloneType) {
-    JsonRec treemapJson = cloneClassesToTreemapJson(cloneClasses, entry);
+    JsonRec treemapJson = cloneClassesToTreemapJson(cloneClasses, entry, cloneType);
     writeJSON(outputLocation + "Treemap_<cloneType>.json", treemapJson);
 
-    JsonRec cloneClassJson = cloneClassesToJsonRec(cloneClasses);
+    JsonRec cloneClassJson = cloneClassesToJsonRec(cloneClasses, entry, cloneType);
     writeJSON(outputLocation + "Classes_<cloneType>.json", cloneClassJson);
 }
 
-JsonRec cloneClassesToJsonRec(map[str, list[tuple[node, loc]]] cloneClasses) {
-    JsonRec json = ();
+JsonRec cloneClassesToJsonRec(map[str, list[tuple[node, loc]]] cloneClasses, str entry, str cloneType) {
+    JsonRec json = ("name": entry, "type": cloneType);
     for (cloneClassHash <- cloneClasses) {
         list[tuple[node, loc]] cloneClass = cloneClasses[cloneClassHash];
         classRecords = ();
@@ -52,8 +52,8 @@ JsonRec cloneClassesToJsonRec(map[str, list[tuple[node, loc]]] cloneClasses) {
     return json;
 }
 
-JsonRec cloneClassesToTreemapJson(map[str, list[tuple[node, loc]]] cloneClasses, str entry) {
-    fileRecords = ("name": entry, "children": []);
+JsonRec cloneClassesToTreemapJson(map[str, list[tuple[node, loc]]] cloneClasses, str entry, str cloneType) {
+    fileRecords = ("name": entry, "type": cloneType, "children": []);
     list[JsonRec] treemapJsons = [];
     for (cloneClassHash <- cloneClasses) {
         list[tuple[node, loc]] cloneClass = cloneClasses[cloneClassHash];
