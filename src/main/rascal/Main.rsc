@@ -13,14 +13,19 @@ void main() {
     println("Start analyzing following projects: <entries>. Can take a few minutes..");
     
     for(entry <- entries) {
-        if(entry == ".gitkeep" || entry == "hsqldb-2.3.1") {
+        // if(entry == ".gitkeep" || entry == ".DS_Store" || entry == "smallsql0.21_src" || entry == "hsqldb-2.3.1") {
+        if(entry == ".gitkeep" || entry == ".DS_Store") {
             continue;
         }
+        println("Analyzing project: <entry>");
         projectLocation = |cwd:///projects/| + entry;
         set[loc] fileLocations = find(projectLocation, "java");
         list[Declaration] asts = getASTs(projectLocation);
 
-        cloneClasses = basicCloneDetection(asts, threshold=100);
-        cloneClassesToJson(cloneClasses, |cwd:///results/| + entry, entry);
+        type1CloneClasses = basicCloneDetection(asts, threshold=100, type2=false);
+        cloneClassesToJson(type1CloneClasses, |cwd:///results/| + entry, entry, "type1");
+
+        type2CloneClasses = basicCloneDetection(asts, threshold=100);
+        cloneClassesToJson(type2CloneClasses, |cwd:///results/| + entry, entry, "type2");
     }
 }

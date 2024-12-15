@@ -22,12 +22,12 @@ str hash(value s) {
     return md5Hash(s); 
 }
 
-void cloneClassesToJson(map[str, list[tuple[node, loc]]] cloneClasses, loc outputLocation, str entry) {
+void cloneClassesToJson(map[str, list[tuple[node, loc]]] cloneClasses, loc outputLocation, str entry, str cloneType) {
     JsonRec treemapJson = cloneClassesToTreemapJson(cloneClasses, entry);
-    writeJSON(outputLocation + "Treemap.json", treemapJson);
+    writeJSON(outputLocation + "Treemap_<cloneType>.json", treemapJson);
 
     JsonRec cloneClassJson = cloneClassesToJsonRec(cloneClasses);
-    writeJSON(outputLocation + "Classes.json", cloneClassJson);
+    writeJSON(outputLocation + "Classes_<cloneType>.json", cloneClassJson);
 }
 
 JsonRec cloneClassesToJsonRec(map[str, list[tuple[node, loc]]] cloneClasses) {
@@ -73,7 +73,7 @@ JsonRec cloneClassesToTreemapJson(map[str, list[tuple[node, loc]]] cloneClasses,
 
 list[JsonRec] addPathToTreemapJson(list[str] path, list[JsonRec] srcJson, loc src, str cloneClassHash) {
     if(size(path) == 0) {
-        return srcJson += ("src": src, "cloneClassHash": cloneClassHash, "value": src.length, "name": src.file);
+        return srcJson += ("src": src, "cloneClassHash": cloneClassHash, "value": src.length, "name": src.file, "begin": src.begin, "end": src.end, "path": src.path);
     }
     newJson = srcJson;
     // println("newJson: <newJson>");

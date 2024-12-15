@@ -29,15 +29,15 @@ map[str, list[tuple[node, loc]]] basicCloneDetection(list[Declaration] asts, int
         println("Type 1 clones detected:");
     }
 
-    for (cloneClass <- [cloneClasses[hash] | hash <- cloneClasses]) {
-        println("Clone class: ");
-        for (clone <- cloneClass) {
-            println("<clone[1]> with mass <getMass(clone[1])>");
-            // println("Test: <unsetRec(clone[0])>");
-            // println("No unset: <clone[0]>");
-            // println("Unset: <unsetRec(clone[0], {"src", "decl"})> \n");
-        }
-    }
+    // for (cloneClass <- [cloneClasses[hash] | hash <- cloneClasses]) {
+    //     println("Clone class: ");
+    //     for (clone <- cloneClass) {
+    //         println("<clone[1]> with mass <getMass(clone[1])>");
+    //         // println("Test: <unsetRec(clone[0])>");
+    //         // println("No unset: <clone[0]>");
+    //         // println("Unset: <unsetRec(clone[0], {"src", "decl"})> \n");
+    //     }
+    // }
 
     println("Number of clone classes: <size(cloneClasses)>");
 
@@ -139,41 +139,5 @@ void main() {
     basicCloneDetection(asts);
 }
 
-// bool isSubClone(tuple[tuple[node, loc], tuple[node, loc]] subClonePair, list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs) {
-//     for (clonePair <- clonePairs) {
-//         if(isStrictlyContainedIn(subClonePair[0][1], clonePair[0][1]) && isStrictlyContainedIn(subClonePair[1][1], clonePair[1][1])) {
-//             // println("subtree <subClonePair[0][1]> and <subClonePair[1][1]> is a subclone of <clonePair[0][1]> and <clonePair[1][1]>");
-//             return true;
-//         }
-//     }
-//     return false;
-// }
-// list[tuple[tuple[node, loc], tuple[node, loc]]] deleteSubClonePairs(list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs) {
-//     list[tuple[tuple[node, loc], tuple[node, loc]]] newClonePairs = clonePairs;
-//     for (clonePair <- clonePairs) {
-//         if(isSubClone(clonePair, clonePairs)) {
-//             newClonePairs = delete(clonePairs, indexOf(clonePairs, clonePair));
-//             return deleteSubClonePairs(newClonePairs);
-//         }
-//     }
-//     return newClonePairs;
-// } 
-
-// list[tuple[tuple[node, loc], tuple[node, loc]]] createClonePairs(map[str, list[tuple[node, loc]]] hashBucket) {
-//     list[tuple[tuple[node, loc], tuple[node, loc]]] clonePairs = [];
-//     for(hash <- hashBucket) {
-//         if(size(hashBucket[hash]) < 2) {
-//             continue;
-//         }
-//         subtrees = hashBucket[hash];
-//         for(i <- [0..size(subtrees)-1]) {
-//             for(j <- [i+1..size(subtrees)]) {
-//                 clonePairs += [<subtrees[i], subtrees[j]>];
-//             }
-//         }
-//     }
-//     clonePairs = deleteSubClonePairs(clonePairs);
-//     return clonePairs;
-// }
 
 // [1] I. D. Baxter, A. Yahin, L. Moura, M. Sant'Anna and L. Bier, "Clone detection using abstract syntax trees," Proceedings. International Conference on Software Maintenance (Cat. No. 98CB36272), Bethesda, MD, USA, 1998, pp. 368-377, doi: 10.1109/ICSM.1998.738528, https://ieeexplore.ieee.org/abstract/document/738528

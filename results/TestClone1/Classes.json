@@ -1,1 +1,100 @@
-{"ca72516929dd1ba2557dac196e6c6c01":{"477ccc582e737f425c99efc50b1d9d8f":{"src":"|java+compilationUnit:///projects/TestClone1/Example2.java|(29,118,<2,4>,<8,5>)","path":"/projects/TestClone1/Example2.java","length":118,"endLine":8,"endColumn":5,"file":"Example2.java","beginLine":2,"beginColumn":4},"1414c1717a0cc948e20ee797ed1a3180":{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(27,102,<2,4>,<8,5>)","path":"/projects/TestClone1/Clone1.java","length":102,"endLine":8,"endColumn":5,"file":"Clone1.java","beginLine":2,"beginColumn":4}},"0df7608b0133396a17bf2f06122289a0":{"274b40c9e1e96c9539b28d718ec32ee3":{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(417,134,<24,4>,<27,5>)","path":"/projects/TestClone1/Clone1.java","length":134,"endLine":27,"endColumn":5,"file":"Clone1.java","beginLine":24,"beginColumn":4},"7739eb3faf07dc842e5d806b3f917725":{"src":"|java+compilationUnit:///projects/TestClone1/Example2.java|(441,134,<25,4>,<28,5>)","path":"/projects/TestClone1/Example2.java","length":134,"endLine":28,"endColumn":5,"file":"Example2.java","beginLine":25,"beginColumn":4}},"97a59decba67c63f494d4db2982c665d":{"7ec3dcc82fe7d0d9fea25cce269e9a26":{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(244,167,<15,43>,<23,5>)","path":"/projects/TestClone1/Clone1.java","length":167,"endLine":23,"endColumn":5,"file":"Clone1.java","beginLine":15,"beginColumn":43},"cfe33f8aadadfec1dde73ba885261350":{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(597,167,<29,42>,<37,5>)","path":"/projects/TestClone1/Clone1.java","length":167,"endLine":37,"endColumn":5,"file":"Clone1.java","beginLine":29,"beginColumn":42},"e5f78a6fcfbf11bbcd2c0f2387909863":{"src":"|java+compilationUnit:///projects/TestClone1/Example2.java|(262,171,<15,43>,<23,5>)","path":"/projects/TestClone1/Example2.java","length":171,"endLine":23,"endColumn":5,"file":"Example2.java","beginLine":15,"beginColumn":43}},"dd213bb67c0ce375feb5a2e0f7c01b6d":{"3565e317625a2596e0a5bc0358d7b320":{"src":"|java+compilationUnit:///projects/TestClone1/Example2.java|(223,210,<15,4>,<23,5>)","path":"/projects/TestClone1/Example2.java","length":210,"endLine":23,"endColumn":5,"file":"Example2.java","beginLine":15,"beginColumn":4},"869e81d2158ce89965c1c56ffeab8de2":{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(205,206,<15,4>,<23,5>)","path":"/projects/TestClone1/Clone1.java","length":206,"endLine":23,"endColumn":5,"file":"Clone1.java","beginLine":15,"beginColumn":4}}}
+{
+  "ca72516929dd1ba2557dac196e6c6c01": {
+    "477ccc582e737f425c99efc50b1d9d8f": {
+      "src": "|java+compilationUnit:///projects/TestClone1/Example2.java|(29,118,<2,4>,<8,5>)",
+      "path": "/projects/TestClone1/Example2.java",
+      "length": 118,
+      "endLine": 8,
+      "endColumn": 5,
+      "file": "Example2.java",
+      "beginLine": 2,
+      "beginColumn": 4
+    },
+    "1414c1717a0cc948e20ee797ed1a3180": {
+      "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(27,102,<2,4>,<8,5>)",
+      "path": "/projects/TestClone1/Clone1.java",
+      "length": 102,
+      "endLine": 8,
+      "endColumn": 5,
+      "file": "Clone1.java",
+      "beginLine": 2,
+      "beginColumn": 4
+    }
+  },
+  "0df7608b0133396a17bf2f06122289a0": {
+    "274b40c9e1e96c9539b28d718ec32ee3": {
+      "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(417,134,<24,4>,<27,5>)",
+      "path": "/projects/TestClone1/Clone1.java",
+      "length": 134,
+      "endLine": 27,
+      "endColumn": 5,
+      "file": "Clone1.java",
+      "beginLine": 24,
+      "beginColumn": 4
+    },
+    "7739eb3faf07dc842e5d806b3f917725": {
+      "src": "|java+compilationUnit:///projects/TestClone1/Example2.java|(441,134,<25,4>,<28,5>)",
+      "path": "/projects/TestClone1/Example2.java",
+      "length": 134,
+      "endLine": 28,
+      "endColumn": 5,
+      "file": "Example2.java",
+      "beginLine": 25,
+      "beginColumn": 4
+    }
+  },
+  "97a59decba67c63f494d4db2982c665d": {
+    "7ec3dcc82fe7d0d9fea25cce269e9a26": {
+      "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(244,167,<15,43>,<23,5>)",
+      "path": "/projects/TestClone1/Clone1.java",
+      "length": 167,
+      "endLine": 23,
+      "endColumn": 5,
+      "file": "Clone1.java",
+      "beginLine": 15,
+      "beginColumn": 43
+    },
+    "cfe33f8aadadfec1dde73ba885261350": {
+      "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(597,167,<29,42>,<37,5>)",
+      "path": "/projects/TestClone1/Clone1.java",
+      "length": 167,
+      "endLine": 37,
+      "endColumn": 5,
+      "file": "Clone1.java",
+      "beginLine": 29,
+      "beginColumn": 42
+    },
+    "e5f78a6fcfbf11bbcd2c0f2387909863": {
+      "src": "|java+compilationUnit:///projects/TestClone1/Example2.java|(262,171,<15,43>,<23,5>)",
+      "path": "/projects/TestClone1/Example2.java",
+      "length": 171,
+      "endLine": 23,
+      "endColumn": 5,
+      "file": "Example2.java",
+      "beginLine": 15,
+      "beginColumn": 43
+    }
+  },
+  "dd213bb67c0ce375feb5a2e0f7c01b6d": {
+    "3565e317625a2596e0a5bc0358d7b320": {
+      "src": "|java+compilationUnit:///projects/TestClone1/Example2.java|(223,210,<15,4>,<23,5>)",
+      "path": "/projects/TestClone1/Example2.java",
+      "length": 210,
+      "endLine": 23,
+      "endColumn": 5,
+      "file": "Example2.java",
+      "beginLine": 15,
+      "beginColumn": 4
+    },
+    "869e81d2158ce89965c1c56ffeab8de2": {
+      "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(205,206,<15,4>,<23,5>)",
+      "path": "/projects/TestClone1/Clone1.java",
+      "length": 206,
+      "endLine": 23,
+      "endColumn": 5,
+      "file": "Clone1.java",
+      "beginLine": 15,
+      "beginColumn": 4
+    }
+  }
+}
