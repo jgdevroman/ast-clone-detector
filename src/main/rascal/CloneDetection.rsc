@@ -16,7 +16,7 @@ import Utility;
 
 int MASS_THRESHOLD = 50;
 
-void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD, bool type2 = true) {
+map[str, list[tuple[node, loc]]] basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD, bool type2 = true) {
     map[str, list[tuple[node, loc]]] hashBucket = createHashBuckets(asts, threshold, type2); 
 
     println("Create clone classes..");
@@ -41,6 +41,7 @@ void basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD,
 
     println("Number of clone classes: <size(cloneClasses)>");
 
+    return cloneClasses;
 }
 
 map[str, list[tuple[node, loc]]] createHashBuckets(list[Declaration] asts, int threshold, bool type2) {

@@ -2,63 +2,64 @@
 import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 
+const path = ["src", "components", "Button", "index.java"];
+
 const dataset = {
-  name: "CEO",
+  name: "src",
   children: [
     {
-      name: "boss1",
+      name: "components",
       children: [
         {
-          name: "mister_a",
+          name: "Button",
           children: [
-            { name: "mister_x", group: "A", value: 10 },
-            { name: "mister_y", group: "A", value: 10 },
-            { name: "mister_z", group: "A", value: 8 },
+            { name: "index.java", value: 10 },
+            { name: "Button.java", value: 10 },
+            { name: "hooks.java", value: 8 },
           ],
         },
-        { name: "mister_b", group: "A", value: 19 },
+        { name: "mister_b", value: 19 },
         {
           name: "mister_c",
           children: [
-            { name: "mister_q", group: "A", value: 10 },
-            { name: "mister_r", group: "C", value: 10 },
-            { name: "mister_s", group: "B", value: 30 },
+            { name: "mister_q", value: 10 },
+            { name: "mister_r", value: 10 },
+            { name: "mister_s", value: 30 },
             {
               name: "mister_t",
               children: [
-                { name: "mister_u", group: "A", value: 10 },
-                { name: "mister_v", group: "A", value: 10 },
-                { name: "mister_w", group: "A", value: 8 },
-                { name: "mister_x", group: "A", value: 40 },
+                { name: "mister_u", value: 10 },
+                { name: "mister_v", value: 10 },
+                { name: "mister_w", value: 8 },
+                { name: "mister_x", value: 40 },
               ],
             },
           ],
         },
-        { name: "mister_d", group: "C", value: 19 },
+        { name: "mister_d", value: 19 },
       ],
     },
     {
       name: "boss2",
       children: [
-        { name: "mister_e", group: "C", value: 14 },
-        { name: "mister_f", group: "A", value: 11 },
-        { name: "mister_g", group: "B", value: 15 },
-        { name: "mister_h", group: "B", value: 16 },
+        { name: "mister_e", value: 14 },
+        { name: "mister_f", value: 11 },
+        { name: "mister_g", value: 15 },
+        { name: "mister_h", value: 16 },
       ],
     },
     {
       name: "boss3",
       children: [
-        { name: "mister_i", group: "B", value: 10 },
-        { name: "mister_j", group: "A", value: 13 },
-        { name: "mister_k", group: "A", value: 13 },
-        { name: "mister_l", group: "D", value: 25 },
-        { name: "mister_m", group: "D", value: 16 },
-        { name: "mister_n", group: "D", value: 28 },
+        { name: "mister_i", value: 10 },
+        { name: "mister_j", value: 13 },
+        { name: "mister_k", value: 13 },
+        { name: "mister_l", value: 25 },
+        { name: "mister_m", value: 16 },
+        { name: "mister_n", value: 28 },
       ],
     },
   ],
-  name: "CEO",
 };
 
 const generateUniqueID = (prefix?: string) => {
