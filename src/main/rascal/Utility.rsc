@@ -64,28 +64,28 @@ JsonRec cloneClassesToTreemapJson(map[str, list[tuple[node, loc]]] cloneClasses,
             list[str] files = split("/", path);
             // filter empty strings and "projects" from the path
             files = [f | f <- files, f != "" && f != "projects" && f != entry];
-            treemapJsons = addPathToTreemapJson(files, treemapJsons, l, cloneClassHash);
+            treemapJsons = addPathToTreemapJson(files, treemapJsons, l, cloneClassHash, hash(clone));
             fileRecords["children"] = treemapJsons;
         }
     }
     return fileRecords;
 }
 
-list[JsonRec] addPathToTreemapJson(list[str] path, list[JsonRec] srcJson, loc src, str cloneClassHash) {
+list[JsonRec] addPathToTreemapJson(list[str] path, list[JsonRec] srcJson, loc src, str cloneClassHash, str cloneHash) {
     if(size(path) == 0) {
-        return srcJson += ("src": src, "cloneClassHash": cloneClassHash, "value": src.length, "name": src.file, "begin": src.begin, "end": src.end, "path": src.path);
+        return srcJson += ("src": src, "cloneClassHash": cloneClassHash, "cloneHash": cloneHash, "value": src.length, "name": src.file, "begin": src.begin, "end": src.end, "path": src.path);
     }
     newJson = srcJson;
     // println("newJson: <newJson>");
     for (i <- [0..size(newJson)]) {
         json = newJson[i];
         if(json["name"] == path[0]) {
-            newJson[i]["children"] = addPathToTreemapJson(path[1..], json["children"], src, cloneClassHash);
+            newJson[i]["children"] = addPathToTreemapJson(path[1..], json["children"], src, cloneClassHash, cloneHash);
         }
     }
     if(newJson == srcJson) {
         // println("Add new path: <path[0]>");
-        newJson += ("name": path[0], "children": addPathToTreemapJson(path[1..], [], src, cloneClassHash));
+        newJson += ("name": path[0], "children": addPathToTreemapJson(path[1..], [], src, cloneClassHash, cloneHash));
     }
 
     return newJson;

@@ -22,10 +22,10 @@ void main() {
         set[loc] fileLocations = find(projectLocation, "java");
         list[Declaration] asts = getASTs(projectLocation);
 
-        type1CloneClasses = basicCloneDetection(asts, threshold=100, type2=false);
+        type1CloneClasses = basicCloneDetection(asts, threshold=150, type2=false);
         cloneClassesToJson(type1CloneClasses, |cwd:///results/| + entry, entry, "type1");
 
-        type2CloneClasses = basicCloneDetection(asts, threshold=100);
+        type2CloneClasses = basicCloneDetection(asts, threshold=150);
         cloneClassesToJson(type2CloneClasses, |cwd:///results/| + entry, entry, "type2");
     }
 }
