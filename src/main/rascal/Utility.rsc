@@ -17,14 +17,6 @@ list[Declaration] getASTs(loc projectLocation) {
     return asts;
 }
 
-list[value] setToList(set[value] s) {
-    return [v | v <- s];
-}
-
-set[value] listToSet(list[value] l) {
-    return {v | v <- l};
-}
-
 // Compute the hash of a given subtree
 str hash(value s) { 
     return md5Hash(s); 
@@ -32,10 +24,10 @@ str hash(value s) {
 
 void cloneClassesToJson(map[str, list[tuple[node, loc]]] cloneClasses, loc outputLocation, str entry) {
     JsonRec treemapJson = cloneClassesToTreemapJson(cloneClasses, entry);
-    writeJSON(outputLocation + "Classes.json", treemapJson);
+    writeJSON(outputLocation + "Treemap.json", treemapJson);
 
     JsonRec cloneClassJson = cloneClassesToJsonRec(cloneClasses);
-    writeJSON(outputLocation + "Treemap.json", cloneClassJson);
+    writeJSON(outputLocation + "Classes.json", cloneClassJson);
 }
 
 JsonRec cloneClassesToJsonRec(map[str, list[tuple[node, loc]]] cloneClasses) {
@@ -81,7 +73,7 @@ JsonRec cloneClassesToTreemapJson(map[str, list[tuple[node, loc]]] cloneClasses,
 
 list[JsonRec] addPathToTreemapJson(list[str] path, list[JsonRec] srcJson, loc src, str cloneClassHash) {
     if(size(path) == 0) {
-        return srcJson += ("src": src, "cloneClassHash": cloneClassHash);
+        return srcJson += ("src": src, "cloneClassHash": cloneClassHash, "value": src.length, "name": src.file);
     }
     newJson = srcJson;
     // println("newJson: <newJson>");

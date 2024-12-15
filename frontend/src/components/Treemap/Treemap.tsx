@@ -160,9 +160,9 @@ function Treemap({ width, height, data = dataset }: TreemapProps) {
       .attr("y", function (d: any) {
         return d.y0 + 20;
       }) // +20 to adjust position (lower)
-      .text(function (d: any) {
-        return d.data.name.replace("mister_", "");
-      })
+      // .text(function (d: any) {
+      //   return d.data.name.replace("mister_", "");
+      // })
       .attr("font-size", "19px")
       .attr("fill", "white");
 
@@ -214,7 +214,7 @@ function Treemap({ width, height, data = dataset }: TreemapProps) {
       .append("text")
       .attr("x", 0)
       .attr("y", 14) // +20 to adjust position (lower)
-      .text("Three group leaders and 14 employees")
+      .text(root.data.name)
       .attr("font-size", "19px")
       .attr("fill", "grey");
   };
