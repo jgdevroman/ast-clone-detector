@@ -8,6 +8,7 @@ export default function App() {
   const dataset = treemapData;
 
   const [data, setData] = useState<typeof dataset | null>(null);
+  const [highlighted, setHighlighted] = useState<string | null>(null);
 
   useEffect(() => {
     setData(dataset);
@@ -17,7 +18,10 @@ export default function App() {
 
   return (
     <div>
-      <CirclePack data={data} />
+      <CirclePack data={data} setHighlighted={setHighlighted} />
+      <div>
+        <p>highlighted: {highlighted}</p>
+      </div>
     </div>
   );
 }

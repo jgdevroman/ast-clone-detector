@@ -34,6 +34,7 @@ interface CirclePackProps {
   width?: number;
   height?: number;
   data?: any; // Replace 'any' with a more specific type if possible
+  setHighlighted: (highlighted: string | null) => void;
 }
 
 function calculateSize(size: number | undefined, maxSize: number) {
@@ -44,7 +45,7 @@ function calculateSize(size: number | undefined, maxSize: number) {
   return size > maxSize ? maxSize : size;
 }
 
-function CirclePack({ width, height, data }: CirclePackProps) {
+function CirclePack({ width, height, data, setHighlighted }: CirclePackProps) {
   const ref = useRef<SVGSVGElement>(null);
   const mapHeight = calculateSize(height, window.innerHeight - 100);
   const mapWidth = calculateSize(width, mapHeight);
@@ -110,7 +111,7 @@ function CirclePack({ width, height, data }: CirclePackProps) {
       })
       .on("mouseout", function (event, d) {
         if (highlighted !== null && highlighted === d.data.cloneClassHash) {
-          d3.select(this).attr("stroke", "red").attr("stroke-width", 3);
+          d3.select(this).attr("stroke", "red").attr("stroke-width", 5);
         } else {
           d3.select(this).attr("stroke", null);
         }
@@ -121,6 +122,7 @@ function CirclePack({ width, height, data }: CirclePackProps) {
             ? d.data.cloneClassHash
             : null;
           highlighted = cloneClassHash;
+          setHighlighted(cloneClassHash);
           console.log(highlighted);
           zoom(event, root);
           d3.selectAll("circle")
@@ -138,7 +140,7 @@ function CirclePack({ width, height, data }: CirclePackProps) {
                 highlighted !== null &&
                 d.data.cloneClassHash === highlighted
               ) {
-                return 3;
+                return 5;
               }
               return null;
             });
@@ -159,8 +161,12 @@ function CirclePack({ width, height, data }: CirclePackProps) {
       .selectAll("text")
       .data(root.descendants())
       .join("text")
-      .style("fill-opacity", (d) => (d.parent === root ? 1 : 0))
-      .style("display", (d) => (d.parent === root ? "inline" : "none"))
+      .style("fill-opacity", (d) => {
+        return d.parent === root ? 1 : 0;
+      })
+      .style("display", (d) => {
+        return d.parent === root ? "inline" : "none";
+      })
       .style("font-size", (d) => `${calculateFontSize(d.r)}px`)
       .text((d) => d.data.name);
 
