@@ -17,14 +17,25 @@ list[Declaration] getASTs(loc projectLocation) {
     return asts;
 }
 
+list[value] setToList(set[value] s) {
+    return [v | v <- s];
+}
+
+set[value] listToSet(list[value] l) {
+    return {v | v <- l};
+}
+
 // Compute the hash of a given subtree
 str hash(value s) { 
     return md5Hash(s); 
 }
 
-void cloneClassesToJson(map[str, list[tuple[node, loc]]] cloneClasses, loc outputLocation) {
-    JsonRec json = cloneClassesToTreemapJson(cloneClasses);
-    writeJSON(outputLocation, json);
+void cloneClassesToJson(map[str, list[tuple[node, loc]]] cloneClasses, loc outputLocation, str entry) {
+    JsonRec treemapJson = cloneClassesToTreemapJson(cloneClasses, entry);
+    writeJSON(outputLocation + "Classes.json", treemapJson);
+
+    JsonRec cloneClassJson = cloneClassesToJsonRec(cloneClasses);
+    writeJSON(outputLocation + "Treemap.json", cloneClassJson);
 }
 
 JsonRec cloneClassesToJsonRec(map[str, list[tuple[node, loc]]] cloneClasses) {
@@ -49,78 +60,41 @@ JsonRec cloneClassesToJsonRec(map[str, list[tuple[node, loc]]] cloneClasses) {
     return json;
 }
 
-JsonRec cloneClassesToTreemapJson(map[str, list[tuple[node, loc]]] cloneClasses) {
-    fileRecords = ("name": "root", "children": []);
+JsonRec cloneClassesToTreemapJson(map[str, list[tuple[node, loc]]] cloneClasses, str entry) {
+    fileRecords = ("name": entry, "children": []);
+    list[JsonRec] treemapJsons = [];
     for (cloneClassHash <- cloneClasses) {
         list[tuple[node, loc]] cloneClass = cloneClasses[cloneClassHash];
         for (clone <- cloneClass) {
             loc l = clone[1];
             str path = l.path;
-            int length = l.length;
+            // int length = l.length;
             list[str] files = split("/", path);
             // filter empty strings and "projects" from the path
-            files = [f | f <- files, f != "" && f != "projects"];
-            files = ["root"] + files;
-            println(files);
-            fileRecords = addPathToTreemapJson(files, fileRecords, fileRecords["children"], l, cloneClassHash);
+            files = [f | f <- files, f != "" && f != "projects" && f != entry];
+            treemapJsons = addPathToTreemapJson(files, treemapJsons, l, cloneClassHash);
+            fileRecords["children"] = treemapJsons;
         }
     }
     return fileRecords;
 }
 
-JsonRec addPathToTreemapJson(list[str] path, JsonRec srcJson, list[JsonRec] children, loc src, str cloneClassHash) {
-    JsonRec json = srcJson;
+list[JsonRec] addPathToTreemapJson(list[str] path, list[JsonRec] srcJson, loc src, str cloneClassHash) {
     if(size(path) == 0) {
-        return ("src": src, "cloneClassHash": cloneClassHash);
+        return srcJson += ("src": src, "cloneClassHash": cloneClassHash);
     }
-    if(size(path) == 1) {
-        if (json["name"] == "") {
-            json["name"] = path[0];
-            newChild = addPathToTreemapJson([], ("name": "","children": []), [], src, cloneClassHash);
-            json["children"] = [newChild];
+    newJson = srcJson;
+    // println("newJson: <newJson>");
+    for (i <- [0..size(newJson)]) {
+        json = newJson[i];
+        if(json["name"] == path[0]) {
+            newJson[i]["children"] = addPathToTreemapJson(path[1..], json["children"], src, cloneClassHash);
         }
-        else if(json["name"] == path[0]) {
-            children = json["children"];
-            newChild = addPathToTreemapJson([], ("name": "","children": []), [], src, cloneClassHash);
-            children += [newChild];
-            json["children"] = children;
-        }
-        
-        return json;
+    }
+    if(newJson == srcJson) {
+        // println("Add new path: <path[0]>");
+        newJson += ("name": path[0], "children": addPathToTreemapJson(path[1..], [], src, cloneClassHash));
     }
 
-    if(json["name"] == "") {
-        json["name"] = path[0];
-        newChild = addPathToTreemapJson(path[1..], ("name": "","children": []), [], src, cloneClassHash);
-        json["children"] = [newChild];
-        return json;
-    }
-
-    if(json["name"] == path[0]) {
-        if(size(children) == 0) {
-            newChild = addPathToTreemapJson(path[1..], ("name": "","children": []), [], src, cloneClassHash);
-            json["children"] = [newChild];
-            return json;
-        }
-        if(size(children) > 0){
-            for (i <- [0..size(children)]) {
-                child = children[i];
-                grandChildren = child["children"];
-                newChild = addPathToTreemapJson(path[1..], child, grandChildren, src, cloneClassHash);
-                children = delete(children, i);
-                children += [newChild];
-                json["children"] = children;
-            }
-        }
-    }
-    
-    if(srcJson == json) {
-        println("No changes");
-        newChild = addPathToTreemapJson(path[1..], ("name": "","children": []), [], src, cloneClassHash);
-        children = json["children"];
-        children += [newChild];
-        json["children"] = children;
-    }
-
-    return json;
+    return newJson;
 }
