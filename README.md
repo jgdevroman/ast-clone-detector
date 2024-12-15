@@ -10,7 +10,7 @@ Author: Roman Kornig @jgdevroman, Jakub Stanislaw Kaşıkcı @jskasikci
 2. Make sure that the Java project has a `pom.xml` file in its root
 3. Start a rascal terminal at the root and import `Main`
 4. Run `main()` to run the analysis
-5. The test results will be written into text files in `analysis_result`
+5. The test results will be written into text files in the `report` directory
 
 ### Install and Run the Visualizer
 
