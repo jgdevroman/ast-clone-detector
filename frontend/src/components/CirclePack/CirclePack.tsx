@@ -1,8 +1,33 @@
 import * as d3 from "d3";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import "./CirclePack.css";
 
 const generateUniqueID = (prefix?: string) => {
   return prefix + "_" + Math.random().toString(36);
+};
+
+const calculateFontSize = (size: number) => {
+  const maxSize = 35;
+  const minSize = 11;
+  if (size > maxSize) {
+    return maxSize;
+  }
+  if (size < minSize) {
+    return minSize;
+  }
+
+  return size;
+};
+
+// Compute a random color hex from a given hash
+const generateRandomColor = (hash: string) => {
+  let color = "#";
+  for (let i = 0; i < 3; i++) {
+    const value = parseInt(hash.substring(i * 2, i * 2 + 2), 16);
+    const adjustedValue = Math.max(value, 100); // Ensure the color is not too dark
+    color += adjustedValue.toString(16).padStart(2, "0");
+  }
+  return color;
 };
 
 interface CirclePackProps {
@@ -21,17 +46,19 @@ function calculateSize(size: number | undefined, maxSize: number) {
 
 function CirclePack({ width, height, data }: CirclePackProps) {
   const ref = useRef<SVGSVGElement>(null);
-  const mapHeight =  calculateSize(height, window.innerHeight - 100);
+  const mapHeight = calculateSize(height, window.innerHeight - 100);
   const mapWidth = calculateSize(width, mapHeight);
+  //   const [highlighted, setHighlighted] = useState<string | null>(null);
 
   useEffect(() => {
     draw();
   }, [data]);
 
   const draw = () => {
-    const color = d3
+    let highlighted: string | null = null;
+    const depthColor = d3
       .scaleLinear()
-      .domain([0, 5])
+      .domain([0, 6])
       .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
       .interpolate(d3.interpolateHcl);
 
@@ -56,7 +83,7 @@ function CirclePack({ width, height, data }: CirclePackProps) {
       .attr("height", mapHeight)
       .attr(
         "style",
-        `max-width: 100%; height: auto; display: block; margin: 0 -14px; background: ${color(
+        `max-width: 100%; height: auto; display: block; margin: 0 -14px; background: ${depthColor(
           0
         )}; cursor: pointer;`
       );
@@ -67,23 +94,66 @@ function CirclePack({ width, height, data }: CirclePackProps) {
       .selectAll("circle")
       .data(root.descendants().slice(1))
       .join("circle")
-      .attr("fill", (d) => (d.children ? color(d.depth) : "white"))
-      .attr("pointer-events", (d) => (!d.children ? "none" : null))
+      .attr("fill", (d) => {
+        if (!d.children) {
+          return generateRandomColor(d.data.cloneClassHash);
+        }
+        return depthColor(d.depth);
+      })
+      .attr("className", (d) => {
+        if (highlighted !== null && d.data.cloneClassHash === highlighted) {
+          return "highlighted";
+        }
+      })
       .on("mouseover", function () {
         d3.select(this).attr("stroke", "#000");
       })
-      .on("mouseout", function () {
-        d3.select(this).attr("stroke", null);
+      .on("mouseout", function (event, d) {
+        if (highlighted !== null && highlighted === d.data.cloneClassHash) {
+          d3.select(this).attr("stroke", "red").attr("stroke-width", 3);
+        } else {
+          d3.select(this).attr("stroke", null);
+        }
       })
-      .on(
-        "click",
-        (event, d) => focus !== d && (zoom(event, d), event.stopPropagation())
-      );
+      .on("click", function (event, d) {
+        if (!d.data.children) {
+          const cloneClassHash = !d.data.children
+            ? d.data.cloneClassHash
+            : null;
+          highlighted = cloneClassHash;
+          console.log(highlighted);
+          zoom(event, root);
+          d3.selectAll("circle")
+            .attr("stroke", (d) => {
+              if (
+                highlighted !== null &&
+                d.data.cloneClassHash === highlighted
+              ) {
+                return "red";
+              }
+              return null;
+            })
+            .attr("stroke-width", (d) => {
+              if (
+                highlighted !== null &&
+                d.data.cloneClassHash === highlighted
+              ) {
+                return 3;
+              }
+              return null;
+            });
+          return;
+        }
+
+        if (focus !== d) {
+          zoom(event, d);
+          event.stopPropagation();
+        }
+      });
 
     // Append the text labels.
     const label = svg
       .append("g")
-      .style("font", "10px sans-serif")
       .attr("pointer-events", "none")
       .attr("text-anchor", "middle")
       .selectAll("text")
@@ -91,6 +161,7 @@ function CirclePack({ width, height, data }: CirclePackProps) {
       .join("text")
       .style("fill-opacity", (d) => (d.parent === root ? 1 : 0))
       .style("display", (d) => (d.parent === root ? "inline" : "none"))
+      .style("font-size", (d) => `${calculateFontSize(d.r)}px`)
       .text((d) => d.data.name);
 
     // Create the zoom behavior and zoom immediately in to the initial focus node.
