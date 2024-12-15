@@ -1,0 +1,29 @@
+Clone Detection Report for Project: hsqldb-2.3.1
+
+        -----------------------------------------
+        Total Lines of Code (LOC): 172150
+        Mass Threshold for Clones: 50
+
+Type 1 Clones:
+        -----------------------------------------
+        Total Clone Classes: 805
+        Total Clones: 2025
+        Total Duplicated Lines: 16917
+        Percentage of Duplicated Lines: 9.826895150%
+        Biggest Clone (in LOC): 73
+        Location: JDBCBlobFile.java: lines 516 - 588 (73 LOC)
+        Example Clones:  - TestStoredProcedure.java: lines 447 - 448 (2 LOC)
+  - TestStoredProcedure.java: lines 467 - 468 (2 LOC)
+  - StatementSchema.java: lines 1307 - 1310 (4 LOC)
+
+Type 2 Clones:
+        -----------------------------------------
+        Total Clone Classes: 1921
+        Total Clones: 6778
+        Total Duplicated Lines: 64452
+        Percentage of Duplicated Lines: 37.43944235%
+        Biggest Clone (in LOC): 401
+        Location: ResultConstants.java: lines 258 - 658 (401 LOC)
+        Example Clones:  - ClosableCharArrayWriter.java: lines 276 - 291 (16 LOC)
+  - ClosableByteArrayOutputStream.java: lines 239 - 258 (20 LOC)
+  - DatabaseManager.java: lines 504 - 507 (4 LOC)

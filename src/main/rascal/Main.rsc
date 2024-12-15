@@ -6,6 +6,8 @@ import Utility;
 import lang::java::m3::AST;
 import lang::java::m3::Core;
 import util::FileSystem;
+import Volume;
+import Report;
 
 void main() {
     list[str] entries = listEntries(|cwd:///projects|);
@@ -27,5 +29,8 @@ void main() {
 
         type2CloneClasses = basicCloneDetection(asts, threshold=150);
         cloneClassesToJson(type2CloneClasses, |cwd:///results/| + entry, entry, "type2");
+
+        volume = getVolume(fileLocations);
+        createReport(entry, volume, type1CloneClasses, type2CloneClasses);
     }
 }
