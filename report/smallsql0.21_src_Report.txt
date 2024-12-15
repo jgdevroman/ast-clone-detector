@@ -1,0 +1,29 @@
+Clone Detection Report for Project: smallsql0.21_src
+
+        -----------------------------------------
+        Total Lines of Code (LOC): 24016
+        Mass Threshold for Clones: 50
+
+Type 1 Clones:
+        -----------------------------------------
+        Total Clone Classes: 51
+        Total Clones: 126
+        Total Duplicated Lines: 750
+        Percentage of Duplicated Lines: 3.122918055%
+        Biggest Clone (in LOC): 29
+        Location: TestOrderBy.java: lines 698 - 726 (29 LOC)
+        Example Clones:  - Utils.java: lines 205 - 212 (8 LOC)
+  - BasicTestCase.java: lines 102 - 109 (8 LOC)
+  - TestOrderBy.java: lines 329 - 352 (24 LOC)
+
+Type 2 Clones:
+        -----------------------------------------
+        Total Clone Classes: 164
+        Total Clones: 557
+        Total Duplicated Lines: 3928
+        Percentage of Duplicated Lines: 16.35576282%
+        Biggest Clone (in LOC): 151
+        Location: Language_it.java: lines 35 - 185 (151 LOC)
+        Example Clones:  - RowSource.java: lines 151 - 155 (5 LOC)
+  - RowSource.java: lines 157 - 161 (5 LOC)
+  - RowSource.java: lines 188 - 192 (5 LOC)

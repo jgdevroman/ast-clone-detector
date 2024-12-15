@@ -90,3 +90,16 @@ list[JsonRec] addPathToTreemapJson(list[str] path, list[JsonRec] srcJson, loc sr
 
     return newJson;
 }
+
+bool isRedundantLine(str line) {
+    // Check if comment
+    trimmedLine = trim(line);     
+    if(endsWith(trimmedLine, "*/") || startsWith(trimmedLine, "/*") || startsWith(trimmedLine, "*") || startsWith(trimmedLine, "//")) {
+        return true; 
+    }
+    // Check if whitespace
+    if( /^\s*$/ := line) {
+        return true;
+    }
+    return false;
+}

@@ -1,0 +1,28 @@
+Clone Detection Report for Project: TestClone1
+
+        -----------------------------------------
+        Total Lines of Code (LOC): 58
+        Mass Threshold for Clones: 50
+
+Type 1 Clones:
+        -----------------------------------------
+        Total Clone Classes: 1
+        Total Clones: 2
+        Total Duplicated Lines: 18
+        Percentage of Duplicated Lines: 31.03448276%
+        Biggest Clone (in LOC): 9
+        Location: Clone1.java: lines 15 - 23 (9 LOC)
+        Example Clones:  - Clone1.java: lines 15 - 23 (9 LOC)
+  - Clone1.java: lines 29 - 37 (9 LOC)
+
+Type 2 Clones:
+        -----------------------------------------
+        Total Clone Classes: 2
+        Total Clones: 5
+        Total Duplicated Lines: 45
+        Percentage of Duplicated Lines: 77.58620690%
+        Biggest Clone (in LOC): 9
+        Location: Example2.java: lines 15 - 23 (9 LOC)
+        Example Clones:  - Example2.java: lines 15 - 23 (9 LOC)
+  - Clone1.java: lines 15 - 23 (9 LOC)
+  - Clone1.java: lines 29 - 37 (9 LOC)
