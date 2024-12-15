@@ -26,7 +26,7 @@ Author: Roman Kornig @jgdevroman, Jakub Stanislaw Kaşıkcı @jskasikci
    npm install
 ```
 
-3. Run the visualizer by running `npm start` in the `frontend` folder
+3. Run the visualizer by running `npm run dev` in the `frontend` folder
 
 ```bash
    npm start
