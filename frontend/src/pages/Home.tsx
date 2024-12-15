@@ -3,6 +3,8 @@ import "./Home.css";
 import results from "../../../results/";
 import CirclePack from "../components/CirclePack/CirclePack";
 import "../output.css";
+import * as d3 from "d3";
+
 type Project = {
   title: string;
   key: string;
@@ -17,8 +19,7 @@ type TreemapData = {
 type CloneData = {
   src: string;
   path: string;
-  filename: string;
-  size: number;
+  file: string;
   length: number;
   type: string;
   beginLine: number;
@@ -66,42 +67,83 @@ export default function App() {
     );
   };
 
+  const getClassKey = (project: string, type: string) => {
+    return (
+      projects[project].find(
+        (project) => project.type === type && project.key.includes("Classes")
+      )?.key || ""
+    );
+  };
+
   const initialTreemapData: string = getTreemapKey(
     selectedProject,
     selectedType
   );
+  const initialClassData: string = getClassKey(selectedProject, selectedType);
 
   const [treemapData, setTreemapData] = useState<Record<string, any> | null>(
     results[initialTreemapData] || null
   );
 
-  const [cloneData, setCloneData] = useState<CloneData[] | null>(null);
+  const [classData, setClassData] = useState<Record<string, any> | null>(
+    results[initialClassData] || null
+  );
+
+  const [cloneClassData, setCloneClassData] = useState<
+    Record<string, CloneData> | undefined
+  >(undefined);
 
   const handleProjectChange = (e: any) => {
     setSelectedProject(e.target.value);
+    d3.selectAll("svg > *").remove();
     const newTreeMapData = getTreemapKey(e.target.value, selectedType);
     setTreemapData(results[newTreeMapData]);
+    const newClassData = getClassKey(e.target.value, selectedType);
+    setClassData(results[newClassData]);
     // console.log("selectedProject", selectedProject);
   };
 
   const handleTypeChange = (e: any) => {
     setSelectedType(e.target.value);
+    d3.selectAll("svg > *").remove();
     const newTreeMapData = getTreemapKey(selectedProject, e.target.value);
     setTreemapData(results[newTreeMapData]);
+    const newClassData = getClassKey(selectedProject, e.target.value);
+    setClassData(results[newClassData]);
     // console.log("selectedType", selectedType);
   };
 
+  const getCloneClassData = (hash: string) => {
+    // console.log("hash", hash);
+    Object.keys(classData).forEach((key, index) => {
+      // console.log("classData", key);
+      if (key == hash) {
+        // console.log(Object.values(classData)[index])
+        setCloneClassData(Object.values(classData)[index]);
+      }
+    });
+  };
+
+  // useEffect(() => {
+  //   console.log("selectedProject", selectedProject);
+  //   console.log("selectedType", selectedType);
+  //   // d3.selectAll("svg > *").remove();
+  //   setTreemapData(treemapData);
+  //   setClassData(classData);
+  // }, [treemapData, selectedProject, selectedType, classData]);
+
   useEffect(() => {
-    console.log("selectedProject", selectedProject);
-    console.log("selectedType", selectedType);
-    setTreemapData(null);
-    setTreemapData(treemapData);
-  }, [treemapData, selectedProject, selectedType]);
+    if (highlighted !== null && classData) {
+      console.log("highlighted", highlighted);
+      getCloneClassData(highlighted);
+      console.log("newCloneClassData", cloneClassData);
+    }
+  }, [highlighted, classData, getCloneClassData]);
 
   if (treemapData === null) return <></>;
 
   return (
-    <div className="flex flex-row items-start">
+    <div className="flex flex-row items-start max-w-full max-h-screen">
       <div className="flex flex-col space-y-4">
         <div className="flex flex-row space-x-8 justify-center">
           <select onChange={(e) => handleProjectChange(e)}>
@@ -122,8 +164,29 @@ export default function App() {
         <CirclePack data={treemapData} setHighlighted={setHighlighted} />
       </div>
 
-      <div className="flex flex-col">
-        <p>highlighted: {highlighted}</p>
+      <div className="flex flex-col justify-start text-left overflow-y-auto max-h-content">
+        {cloneClassData && (
+          <div className="space-y-8">
+            {Object.keys(cloneClassData).map((key, index) => {
+              return (
+                <div key={index}>
+                  <h2 className="font-semibold ">{cloneClassData[key].path}</h2>
+                  <p>name: {cloneClassData[key].file}</p>
+                  <p>length: {cloneClassData[key].length}</p>
+                  <p>LOC: {`${cloneClassData[key].endLine - cloneClassData[key].beginLine}`}</p>
+                  <p>
+                    begin:
+                    {`${cloneClassData[key].beginLine}, ${cloneClassData[key].beginColumn}`}
+                  </p>
+                  <p>
+                    end:
+                    {`${cloneClassData[key].endLine}, ${cloneClassData[key].endColumn}`}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

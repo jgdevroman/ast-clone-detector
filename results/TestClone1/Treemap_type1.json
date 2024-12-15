@@ -1,1 +1,31 @@
-{"name":"TestClone1","type":"type1","children":[{"name":"Clone1.java","children":[{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(244,167,<15,43>,<23,5>)","path":"/projects/TestClone1/Clone1.java","value":167,"end":[23,5],"begin":[15,43],"cloneClassHash":"5cc9045217be309719d8bef9fb631553","cloneHash":"c1ff0d7ef4cb6b5f71cadcd45cb0d118","name":"Clone1.java"},{"src":"|java+compilationUnit:///projects/TestClone1/Clone1.java|(597,167,<29,42>,<37,5>)","path":"/projects/TestClone1/Clone1.java","value":167,"end":[37,5],"begin":[29,42],"cloneClassHash":"5cc9045217be309719d8bef9fb631553","cloneHash":"3f027f04c3b2f504cfa6d0cba8887e21","name":"Clone1.java"}]}]}
+{
+  "name": "TestClone1",
+  "type": "type1",
+  "children": [
+    {
+      "name": "Clone1.java",
+      "children": [
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(244,167,<15,43>,<23,5>)",
+          "path": "/projects/TestClone1/Clone1.java",
+          "value": 167,
+          "end": [23, 5],
+          "begin": [15, 43],
+          "cloneClassHash": "5cc9045217be309719d8bef9fb631553",
+          "cloneHash": "c1ff0d7ef4cb6b5f71cadcd45cb0d118",
+          "name": "Clone1.java"
+        },
+        {
+          "src": "|java+compilationUnit:///projects/TestClone1/Clone1.java|(597,167,<29,42>,<37,5>)",
+          "path": "/projects/TestClone1/Clone1.java",
+          "value": 167,
+          "end": [37, 5],
+          "begin": [29, 42],
+          "cloneClassHash": "5cc9045217be309719d8bef9fb631553",
+          "cloneHash": "3f027f04c3b2f504cfa6d0cba8887e21",
+          "name": "Clone1.java"
+        }
+      ]
+    }
+  ]
+}
