@@ -10,6 +10,27 @@ export default function App() {
   const [data, setData] = useState<typeof dataset | null>(null);
   const [highlighted, setHighlighted] = useState<string | null>(null);
   console.log("cloneData", results);
+  const projects: Record<string, any> = {};
+
+  Object.keys(results).forEach((key) => {
+    const title = key.split("_");
+    const project = title[0];
+    let type = title[title.length - 1];
+    if (type !== "type1" && type !== "type2") {
+      type = "type2";
+    }
+
+    if (!projects[project]) {
+      projects[project] = [];
+    }
+    projects[project].push({
+      title: project,
+      key: key,
+      type,
+    });
+  });
+
+  console.log("projects", projects);
 
   useEffect(() => {
     setData(dataset);
