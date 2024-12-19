@@ -14,7 +14,7 @@ import Utility;
 
 // Detect type I and type II clones in a given project based on the clone detection algorithm from Baxter et al.[1]
 
-int MASS_THRESHOLD = 50;
+int MASS_THRESHOLD = 100;
 
 map[str, list[tuple[node, loc]]] basicCloneDetection(list[Declaration] asts, int threshold = MASS_THRESHOLD, bool type2 = true) {
     map[str, list[tuple[node, loc]]] hashBucket = createHashBuckets(asts, threshold, type2); 
@@ -29,15 +29,15 @@ map[str, list[tuple[node, loc]]] basicCloneDetection(list[Declaration] asts, int
         println("Type 1 clones detected:");
     }
 
-    // for (cloneClass <- [cloneClasses[hash] | hash <- cloneClasses]) {
-    //     println("Clone class: ");
-    //     for (clone <- cloneClass) {
-    //         println("<clone[1]> with mass <getMass(clone[1])>");
-    //         // println("Test: <unsetRec(clone[0])>");
-    //         // println("No unset: <clone[0]>");
-    //         // println("Unset: <unsetRec(clone[0], {"src", "decl"})> \n");
-    //     }
-    // }
+    for (cloneClass <- [cloneClasses[hash] | hash <- cloneClasses]) {
+        println("Clone class: ");
+        for (clone <- cloneClass) {
+            println("<clone[1]> with mass <getMass(clone[1])>");
+            // println("Test: <unsetRec(clone[0])>");
+            // println("No unset: <clone[0]>");
+            // println("Unset: <unsetRec(clone[0], {"src", "decl"})> \n");
+        }
+    }
 
     println("Number of clone classes: <size(cloneClasses)>");
 
